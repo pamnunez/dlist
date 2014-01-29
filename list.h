@@ -48,7 +48,7 @@ bool is_empty(IntList *list); //DONE
 int length(IntList *list); //DONE
 
 // Returns the sum of the values in the given list.
-int sum(IntList *list);
+int sum(IntList *list); //DONE
 
 // Loads ret with the index of the first occurrence of value in the list.
 // Returns true if the operation is successful and false otherwise.

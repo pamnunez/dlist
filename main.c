@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
     printf("is_empty(list2) = 0? %d\n", is_empty(list2));
     printf("length(list2) = 2? %d\n", length(list2));
     print_list(list2);
+    printf("sum(list2) = 9? %d\n", sum(list2));
     free_list(list2);
     
  

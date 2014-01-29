@@ -49,7 +49,16 @@ int length(IntList *list) {
 }
 
 // Returns the sum of the values in the given list.
-int sum(IntList *list);
+int sum(IntList *list) {
+    DNode* cur = list->first;
+    if (cur == NULL) { return 0; }
+    int sum = 0;
+    while (cur->next != NULL) {
+        sum += cur->value;
+        cur = cur->next;
+    }
+    return sum+=cur->value; 
+}
 
 // Loads ret with the index of the first occurrence of value in the list.
 // Returns true if the operation is successful and false otherwise.
