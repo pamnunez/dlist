@@ -25,10 +25,10 @@ typedef struct IntList {
 ///// Part 1: Basic List Operations {{{ ////////////////////////////////////////
 
 // Creates a new, empty IntList.
-IntList* mk_list(void);
+IntList* mk_list(void); //DONE
 
 // Frees the given IntList.
-void free_list(IntList *list);
+void free_list(IntList *list); //DONE
 
 // Prints the given list to the console in the following format:
 //
@@ -39,13 +39,13 @@ void free_list(IntList *list);
 // []
 //
 // print_list inserts a newline after the list.
-void print_list(IntList *list);
+void print_list(IntList *list); //DONE
 
 // Returns true iff the list is empty.
-bool is_empty(IntList *list);
+bool is_empty(IntList *list); //DONE
 
 // Returns the length of the list.
-int length(IntList *list);
+int length(IntList *list); //DONE
 
 // Returns the sum of the values in the given list.
 int sum(IntList *list);
@@ -55,7 +55,7 @@ int sum(IntList *list);
 bool index_of(IntList *list, int value, int *ret);
 
 // Inserts the given value into the end of the list.
-void push_back(IntList *list, int value);
+void push_back(IntList *list, int value); //DONE
 
 // Pushes the given value onto the front of the list.
 void push_front(IntList *list, int value);
