@@ -1,7 +1,7 @@
-#ifndef _LIST_H
-#define _LIST_H
-
+#include "list.h"
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 IntList* mk_list(void) {
     IntList* result = (IntList*) malloc(sizeof(IntList));
@@ -19,6 +19,13 @@ void free_list(IntList *list) {
     free(list);
 }
 
+void print_list(IntList *list) {
+    
+}
+
+bool is_empty(IntList *list) {
+    return 0;
+}
 
 
 /*
@@ -32,4 +39,3 @@ void free_list(LinkedList *l) {
 }
 */
 
-#endif // _LIST_H
