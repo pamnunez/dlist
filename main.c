@@ -47,10 +47,23 @@ int main(int argc, char** argv) {
     push_back(list3, 5);
     intersperse(list3, 2);
     print_list(list3);
-    free_list(list3);
+
+    int pop;
+    pop_front(list3, &pop);
+    print_list(list3);
+    printf("pop = %d\n", pop);
+
+    pop_front(list3, &pop);
+    print_list(list3);
+    printf("pop = %d\n", pop);
+
+    pop_front(list3, &pop);
+//    print_list(list3);
+    printf("pop = %d\n", pop);
+
 
     free_list(list2);
-    
+//    free_list(list3);
  
     return 0;
 }

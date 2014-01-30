@@ -10,6 +10,7 @@ IntList* mk_list(void) {
 }
 
 void free_list(IntList *list) {
+    if (list == NULL) { return; }
     DNode* cur = list->first;
     while (cur != NULL) {
         DNode* del = cur;
@@ -20,6 +21,7 @@ void free_list(IntList *list) {
 }
 
 void print_list(IntList *list) {
+    if (list->first == NULL) { printf("This list is NULL."); }
 	printf("[");
 	DNode* cur = list->first;
 	while (cur != NULL) {
@@ -199,7 +201,7 @@ void intersperse(IntList *list, int value) {
         cur->prev = new;
         oldprev->next = new;
         cur = cur->next;
-        printf("end cur value = %d\n", cur->value);
+        
     }
         DNode * new = (DNode*) malloc(sizeof(DNode));
         new->value = value;
@@ -209,6 +211,32 @@ void intersperse(IntList *list, int value) {
         cur->prev = new;
         oldprev->next = new;
 
+}
+
+// Removes and loads ret with the front of the list.  Returns true if the
+// operation is successful and false otherwise.
+bool pop_front(IntList *list, int *ret) {
+    DNode* cur = list->first;
+    if (cur == NULL) { free(list); return 0; }
+    if (cur->next == NULL) {
+        *ret = cur->value;
+        free(cur);
+        free(list);
+        return 1;
+    }
+    *ret = cur->value;
+    DNode* newfirst = cur->next;
+    newfirst->prev = NULL;
+    list->first = newfirst;
+    free(cur);
+    return 1;
+}
+
+// Removes and loads ret with the value at nth position in the list.  Returns
+// true if the operation is successful and false otherwise (e.g., the nth index
+// is not within the bounds of the list).
+bool del(IntList *list, int n, int *ret) {
+    return 0;
 }
 
 
