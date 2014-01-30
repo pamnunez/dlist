@@ -62,7 +62,21 @@ int sum(IntList *list) {
 
 // Loads ret with the index of the first occurrence of value in the list.
 // Returns true if the operation is successful and false otherwise.
-bool index_of(IntList *list, int value, int *ret);
+bool index_of(IntList *list, int value, int *ret) {
+    DNode * cur = list->first;
+    int index = 0;
+    if (cur->value == value) {
+        *ret = index;
+        return true;
+    }
+    while(cur->value != value) {
+        cur = cur->next;
+        index++;
+        if (cur == NULL) { return false; }
+    }
+    *ret = index;
+    return true;
+}
 
 
 // Inserts the given value into the end of the list.
@@ -88,17 +102,126 @@ void push_back(IntList *list, int value) {
 
 // Pushes the given value onto the front of the list.
 void push_front(IntList *list, int value) {
+    if (list->first == NULL) {
+		DNode* new = (DNode*) malloc(sizeof(DNode));
+		new->value = value;
+		new->prev = NULL;
+		new->next = NULL;
+		list->first = new;
+    } else {
+        DNode * new = (DNode*) malloc(sizeof(DNode));
+        DNode * cur = list->first;
+        new->prev = NULL;
+        new->value = value;
+        new->next = cur;
+        cur->prev = new;
+        list->first = new;
+    }
+}
+
+// Inserts the given value into the nth position in the list.  Elements from
+// nth index on are shifted to the right to make room.  Returns true if the
+// operation is successful and false otherwise (e.g., the nth index is in the
+// range 0 <= n <= len(l).
+bool insert(IntList *list, int value, int n) {
+    DNode* new = (DNode*) malloc(sizeof(DNode));
+    new->value = value;
+	DNode* cur = list->first;
+    DNode* count = list->first;
+    int length = 1;
+
+	while(count->next != NULL) {
+		length++;
+		count = count->next;
+	}
+    
+    if (n > (length-1)) { return 0; }
+
+	if ((cur == NULL)&&(n == 0)) {
+        list->first = new;
+        return 1;
+    }
+
+    if (n == 0) {
+        cur->prev = new;
+        new->next = cur;
+        list->first = new;
+        return 1;
+    }
+
+    if (n == (length-1)) { 
+    	DNode* temp = list->first;
+		while(temp->next != NULL) {
+			temp = temp->next;
+		}
+        new->prev = temp;
+		new->next = NULL;
+		temp->next = new;
+        return 1;
+    }
+
+    int i;
+    for (i = 0; i < n; i++) { cur = cur->next; }
+    DNode* oldprev = cur->prev;
+    new->prev = oldprev;
+    new->next = cur;
+    cur->prev = new;
+    oldprev->next = new;
+    return 1;
+}
+
+// Inserts the given integer between each pair of integers in the given list.
+// For example, interspersing 9 between the following lists yields:
+//
+// [0, 1, 2]          ~> [0, 9, 1, 9, 2]
+// [0, 1, 2, 3, 4, 5] ~> [0, 9, 1, 9, 2, 9, 3, 9, 4, 9, 5]
+// [1]                ~> [1]
+// []                 ~> []
+//
+// Note the cases for the list of one element and the empty list!
+void intersperse(IntList *list, int value) {
+    // if list empty or one long, do nothing.
+    // if list is x long, the value will be inserted x-1 times
+    // for loop, create a new node, add it before current (starting at second), 
+    // then go next. if new current next is NULL, stop. if not, cur = cur->next
+    DNode* cur = list->first;
+    if ((cur == NULL)||(cur->next==NULL)) {
+        return;
+    }
+
+    cur = cur->next;
+    while (cur->next != NULL) {
+        DNode * new = (DNode*) malloc(sizeof(DNode));
+        new->value = value;
+        DNode * oldprev = cur->prev;
+        new->prev = oldprev;
+        new->next = cur;
+        cur->prev = new;
+        oldprev->next = new;
+        cur = cur->next;
+        printf("end cur value = %d\n", cur->value);
+    }
+        DNode * new = (DNode*) malloc(sizeof(DNode));
+        new->value = value;
+        DNode * oldprev = cur->prev;
+        new->prev = oldprev;
+        new->next = cur;
+        cur->prev = new;
+        oldprev->next = new;
 
 }
 
-/*
-void free_list(LinkedList *l) {
-	Node *cur = l->first;
-	while (cur != NULL) {
-		Node *next = cur->next;
-		free(next);
-	}	
-	free(l);
-}
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
