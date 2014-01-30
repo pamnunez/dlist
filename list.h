@@ -25,10 +25,10 @@ typedef struct IntList {
 ///// Part 1: Basic List Operations {{{ ////////////////////////////////////////
 
 // Creates a new, empty IntList.
-IntList* mk_list(void); //DONE
+IntList* mk_list(void); 
 
 // Frees the given IntList.
-void free_list(IntList *list); //DONE
+void free_list(IntList *list);
 
 // Prints the given list to the console in the following format:
 //
@@ -39,32 +39,32 @@ void free_list(IntList *list); //DONE
 // []
 //
 // print_list inserts a newline after the list.
-void print_list(IntList *list); //DONE
+void print_list(IntList *list); 
 
 // Returns true iff the list is empty.
-bool is_empty(IntList *list); //DONE
+bool is_empty(IntList *list); 
 
 // Returns the length of the list.
-int length(IntList *list); //DONE
+int length(IntList *list); 
 
 // Returns the sum of the values in the given list.
-int sum(IntList *list); //DONE
+int sum(IntList *list); 
 
 // Loads ret with the index of the first occurrence of value in the list.
 // Returns true if the operation is successful and false otherwise.
-bool index_of(IntList *list, int value, int *ret); //DONE
+bool index_of(IntList *list, int value, int *ret); 
 
 // Inserts the given value into the end of the list.
-void push_back(IntList *list, int value); //DONE
+void push_back(IntList *list, int value); 
 
 // Pushes the given value onto the front of the list.
-void push_front(IntList *list, int value); //DONE
+void push_front(IntList *list, int value); 
 
 // Inserts the given value into the nth position in the list.  Elements from
 // nth index on are shifted to the right to make room.  Returns true if the
 // operation is successful and false otherwise (e.g., the nth index is in the
 // range 0 <= n <= len(l).
-bool insert(IntList *list, int value, int n); //DONE
+bool insert(IntList *list, int value, int n); 
 
 // Inserts the given integer between each pair of integers in the given list.
 // For example, interspersing 9 between the following lists yields:
@@ -75,11 +75,11 @@ bool insert(IntList *list, int value, int n); //DONE
 // []                 ~> []
 //
 // Note the cases for the list of one element and the empty list!
-void intersperse(IntList *list, int value); //DONE
+void intersperse(IntList *list, int value); 
 
 // Removes and loads ret with the front of the list.  Returns true if the
 // operation is successful and false otherwise.
-bool pop_front(IntList *list, int *ret); //DONE
+bool pop_front(IntList *list, int *ret); 
 
 // Removes and loads ret with the value at nth position in the list.  Returns
 // true if the operation is successful and false otherwise (e.g., the nth index

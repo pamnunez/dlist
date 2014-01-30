@@ -11,6 +11,7 @@ IntList* mk_list(void) {
 
 void free_list(IntList *list) {
     if (list == NULL) { return; }
+    if (list->first == NULL) { return; }
     DNode* cur = list->first;
     while (cur != NULL) {
         DNode* del = cur;
@@ -22,6 +23,10 @@ void free_list(IntList *list) {
 
 void print_list(IntList *list) {
     if (list == NULL) { 
+        printf("This list is NULL.");
+        return;
+    }
+    if (list->first == NULL) { 
         printf("This list is NULL.");
         return;
     }
@@ -103,7 +108,7 @@ void push_back(IntList *list, int value) {
 		new->prev = cur;
 		new->next = NULL;
 		cur->next = new;
-	}
+    }
 }
 
 // Pushes the given value onto the front of the list.
@@ -240,7 +245,9 @@ bool pop_front(IntList *list, int *ret) {
 // true if the operation is successful and false otherwise (e.g., the nth index
 // is not within the bounds of the list).
 bool del(IntList *list, int n, int *ret) {
-	DNode* cur = list->first;
+    if (list->first == NULL) { return 0; }
+    printf("list->first->value = %d\n", list->first->value);
+    DNode* cur = list->first;
     DNode* count = list->first;
     int length = 1;
     int trigger = 0;
@@ -255,20 +262,27 @@ bool del(IntList *list, int n, int *ret) {
 // if first,
     if (n == 0) {
 	    printf("Trigger a %d\n", trigger++);
-        if ((cur->next = NULL)) {
-            printf("Trigger a-1");
+        if ((cur->next == NULL)) {
+            printf("Trigger a-1\n");
+            printf("cur->value = %d\n", cur->value);
+           // printf("cur->next->value = %d\n", cur->next->value);
+            *ret = cur->value;
             free(cur);
-            free(list);
+           // cur = NULL;
+            list = NULL;
             return 1;
         } else {
 	        printf("Trigger b %d\n", trigger++);
             *ret = cur->value;
             printf("Trigger b: ret = %d\n", *ret);
+            printf("cur->value = %d\n", cur->value);
+           // printf("cur->next->value = %d\n", cur->next->value);
             DNode* newfirst = cur->next;
-            //printf("newfirst->value = %d\n", cur->next->value); 
+            printf("newfirst->value = %d\n", newfirst->value); 
             newfirst->prev = NULL;
             list->first = newfirst;
             free(cur);
+            printf("list->first->value = %d\n", newfirst->value);
             return 1;
         }
     }
@@ -288,11 +302,16 @@ bool del(IntList *list, int n, int *ret) {
 // else... iterate through to n, change pointers and free
 
     int i;
-    for (i = 0; i == n; i++) { cur = cur->next; }
+    for (i = 0; i < n; i++) { cur = cur->next; }
+    printf("i = %d\n", i);
 	printf("Trigger d %d\n", trigger++);
+    printf("cur->value = %d\n", cur->value);
     DNode* oldprev = cur->prev;
     DNode* oldnext = cur->next;
-    
+   
+    printf("oldprev->value = %d\n", oldprev->value);
+    printf("oldnext->value = %d\n", oldnext->value);
+
     oldprev->next = oldnext;
     oldnext->prev = oldprev;
     free(cur);
@@ -301,11 +320,90 @@ bool del(IntList *list, int n, int *ret) {
 
 
 
+///// Part 2: Implementation Choices and Memory Management {{{ /////////////////
+
+// Appends the second list onto the end of the first list by allocating an
+// entirely new list that is the result of appending the second onto the first.
+// This new list is returned.  Both the first list and second list are
+// unmodified.
+IntList* append1(IntList *l1, IntList *l2) {
+    if (l1 == NULL) { return l2; }
+    if (l2 == NULL) { return l1; }
+    
+    DNode * cur1 = l1->first;
+    DNode * cur2 = l2->first;
+    IntList* newlist = (IntList*) malloc(sizeof(IntList));
+
+    newlist->first = (DNode*) malloc(sizeof(DNode));
+    newlist->first->value = cur1->value;
+    DNode * curnew = newlist->first;
+    while(cur1->next != NULL) { 
+        curnew->next = (DNode*) malloc(sizeof(DNode));
+        curnew->next->value = cur1->next->value;
+        curnew->next->prev = curnew;
+        cur1 = cur1->next;
+        curnew = curnew->next;
+    }
+    curnew->next = cur2;
+    cur2->prev = curnew;
+    curnew = curnew->next;
+    while(cur2->next != NULL) {
+        curnew->next = cur2->next;
+        curnew->next->prev = curnew;
+        cur2 = cur2->next;
+        curnew = curnew->next;
+    }
+
+    return newlist;
+}
+
+// Appends the second list onto the end of the first list by allocating new
+// nodes to insert onto the end of the first list.  The modified first list is
+// returned.  The first list is modified and the second list is left unmodified.
+IntList* append2(IntList *l1, IntList *l2) {
+    if (l1 == NULL) { return l2; }
+    if (l2 == NULL) { return l1; }
+    
+    DNode * cur1 = l1->first;
+    DNode * cur2 = l2->first;
+
+    while(cur1->next != NULL) { cur1 = cur1->next; }
+    cur1->next = cur2;
+    cur2->prev = cur1;
+
+
+    return l1;
+}
+
+// Appends the second list onto the end of the first list by taking the nodes of
+// the second list and appending them to the end of the first list.  The
+// modified first list is returned.  The second list should be empty after
+// append3 completes.  Both lists are modified during this process.
+IntList* append3(IntList *l1, IntList *l2) {
+    return NULL;
+}
 
 
 
 
-
+////////////////////////////////////////////////////////////////////////////////
+///////////////???Questions???/////////////////////////////////////////////////
+// 1. l1 = [1, 2, 3] l2 = [4, 5, 6]
+// append1(l1, l2) --> l1 = [1, 2, 3], l2 = [4, 5, 6], l3 = [1, 2, 3, 4, 5, 6]
+// append2(l1, l2) --> l1 = [1, 2, 3, 4, 5, 6], l2 = [4, 5, 6]
+// append3(l1, l2) --> l1 = [1, 2, 3, 4, 5, 6], l2 = []
+//
+// 2. append1 takes up the most memory, however, it leaves the original lists 
+// unaffected, which can be useful. append2 uses less memory, but you no longer
+// have the original l1 to use. append3 uses the least amount of memory, but you
+// can no longer use l1 or l2. Also, I can't seem to figure out how to free
+// nodes so append3 would have the highest risk of memory leakage. append2 is
+// the safest in terms of memory leakage because you do not have to create or
+// delete nodes, you're just adding nodes to one list.
+//
+// 3. If you share nodes between l1 and l2, you could cause dangling pointers,
+// because if l1 is cleared but l2 isn't, then l2 will point to a node that has
+// been cleared through l1. 
 
 
 
