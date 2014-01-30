@@ -59,7 +59,16 @@ int main(int argc, char** argv) {
 
     pop_front(list3, &pop);
 //    print_list(list3);
-    printf("pop = %d\n", pop);
+//    printf("pop = %d\n", pop);
+
+    print_list(list2);
+    int delete;
+//    del(list2, 0, &delete);
+//    print_list(list2);
+//    del(list2, 3, &delete);
+//    print_list(list2);
+//    del(list2, 8, &delete);
+//    print_list(list2);
 
 
     free_list(list2);

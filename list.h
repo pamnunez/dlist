@@ -79,7 +79,7 @@ void intersperse(IntList *list, int value); //DONE
 
 // Removes and loads ret with the front of the list.  Returns true if the
 // operation is successful and false otherwise.
-bool pop_front(IntList *list, int *ret);
+bool pop_front(IntList *list, int *ret); //DONE
 
 // Removes and loads ret with the value at nth position in the list.  Returns
 // true if the operation is successful and false otherwise (e.g., the nth index

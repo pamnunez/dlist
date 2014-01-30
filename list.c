@@ -21,10 +21,14 @@ void free_list(IntList *list) {
 }
 
 void print_list(IntList *list) {
-    if (list->first == NULL) { printf("This list is NULL."); }
+    if (list == NULL) { 
+        printf("This list is NULL.");
+        return;
+    }
 	printf("[");
 	DNode* cur = list->first;
-	while (cur != NULL) {
+
+    while (cur != NULL) {
 		printf(" %d ", cur->value);
 		cur = cur->next;
 	}
@@ -236,7 +240,63 @@ bool pop_front(IntList *list, int *ret) {
 // true if the operation is successful and false otherwise (e.g., the nth index
 // is not within the bounds of the list).
 bool del(IntList *list, int n, int *ret) {
-    return 0;
+	DNode* cur = list->first;
+    DNode* count = list->first;
+    int length = 1;
+    int trigger = 0;
+
+	while(count->next != NULL) { 
+        length++;
+		count = count->next;
+	}
+    printf("length list2 = %d\n", length);
+    if (n >= length) { return 0; }
+
+// if first,
+    if (n == 0) {
+	    printf("Trigger a %d\n", trigger++);
+        if ((cur->next = NULL)) {
+            printf("Trigger a-1");
+            free(cur);
+            free(list);
+            return 1;
+        } else {
+	        printf("Trigger b %d\n", trigger++);
+            *ret = cur->value;
+            printf("Trigger b: ret = %d\n", *ret);
+            DNode* newfirst = cur->next;
+            //printf("newfirst->value = %d\n", cur->next->value); 
+            newfirst->prev = NULL;
+            list->first = newfirst;
+            free(cur);
+            return 1;
+        }
+    }
+
+// if last,
+    if (n == (length-1)) {
+	    printf("Trigger c %d\n", trigger++);
+        while(cur->next != NULL) {
+            cur = cur->next;
+        }
+        *ret = cur->value;
+        cur->prev->next = NULL;
+        free(cur);
+        return 1;
+    }
+
+// else... iterate through to n, change pointers and free
+
+    int i;
+    for (i = 0; i == n; i++) { cur = cur->next; }
+	printf("Trigger d %d\n", trigger++);
+    DNode* oldprev = cur->prev;
+    DNode* oldnext = cur->next;
+    
+    oldprev->next = oldnext;
+    oldnext->prev = oldprev;
+    free(cur);
+    return 1;
 }
 
 
