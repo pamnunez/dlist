@@ -246,7 +246,6 @@ bool pop_front(IntList *list, int *ret) {
 // is not within the bounds of the list).
 bool del(IntList *list, int n, int *ret) {
     if (list->first == NULL) { return 0; }
-    printf("list->first->value = %d\n", list->first->value);
     DNode* cur = list->first;
     DNode* count = list->first;
     int length = 1;
@@ -256,40 +255,26 @@ bool del(IntList *list, int n, int *ret) {
         length++;
 		count = count->next;
 	}
-    printf("length list2 = %d\n", length);
     if (n >= length) { return 0; }
 
 // if first,
     if (n == 0) {
-	    printf("Trigger a %d\n", trigger++);
         if ((cur->next == NULL)) {
-            printf("Trigger a-1\n");
-            printf("cur->value = %d\n", cur->value);
-           // printf("cur->next->value = %d\n", cur->next->value);
             *ret = cur->value;
             free(cur);
-           // cur = NULL;
-            list = NULL;
             return 1;
         } else {
-	        printf("Trigger b %d\n", trigger++);
-            *ret = cur->value;
-            printf("Trigger b: ret = %d\n", *ret);
-            printf("cur->value = %d\n", cur->value);
-           // printf("cur->next->value = %d\n", cur->next->value);
+           *ret = cur->value;
             DNode* newfirst = cur->next;
-            printf("newfirst->value = %d\n", newfirst->value); 
             newfirst->prev = NULL;
             list->first = newfirst;
             free(cur);
-            printf("list->first->value = %d\n", newfirst->value);
             return 1;
         }
     }
 
 // if last,
     if (n == (length-1)) {
-	    printf("Trigger c %d\n", trigger++);
         while(cur->next != NULL) {
             cur = cur->next;
         }
@@ -303,15 +288,9 @@ bool del(IntList *list, int n, int *ret) {
 
     int i;
     for (i = 0; i < n; i++) { cur = cur->next; }
-    printf("i = %d\n", i);
-	printf("Trigger d %d\n", trigger++);
-    printf("cur->value = %d\n", cur->value);
     DNode* oldprev = cur->prev;
     DNode* oldnext = cur->next;
    
-    printf("oldprev->value = %d\n", oldprev->value);
-    printf("oldnext->value = %d\n", oldnext->value);
-
     oldprev->next = oldnext;
     oldnext->prev = oldprev;
     free(cur);
