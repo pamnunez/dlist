@@ -1,0 +1,6 @@
+An exercise in memory management, or, Doubly-linked list in C 
+
+Pam Nunez
+Created: January 2014
+Revisited: March 31st, 2014
+Current problem to resolve: Memory leak in free_list

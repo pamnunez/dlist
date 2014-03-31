@@ -10,9 +10,10 @@ IntList* mk_list(void) {
 }
 
 void free_list(IntList *list) {
-    if (list == NULL) { return; }
+    if (list == NULL) { printf("free_list done\n"); return; }
     DNode* cur = list->first;
     while (cur != NULL) {
+		printf("free_list while loop\n");
         DNode* del = cur;
         cur = cur->next;
         free(del);
@@ -217,7 +218,7 @@ void intersperse(IntList *list, int value) {
 // operation is successful and false otherwise.
 bool pop_front(IntList *list, int *ret) {
     DNode* cur = list->first;
-    if (cur == NULL) { free(list); return 0; }
+    if (cur == NULL) { /*free(list);*/ return 0; }
     if (cur->next == NULL) {
         *ret = cur->value;
         free(cur);
