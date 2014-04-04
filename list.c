@@ -10,10 +10,10 @@ IntList* mk_list(void) {
 }
 
 void free_list(IntList *list) {
-    if (list == NULL) { printf("free_list done\n"); return; }
+    if (list == NULL) { return; }
     DNode* cur = list->first;
     while (cur != NULL) {
-		printf("free_list while loop\n");
+        printf("free_list while loop\n");
         DNode* del = cur;
         cur = cur->next;
         free(del);
@@ -22,7 +22,7 @@ void free_list(IntList *list) {
 }
 
 void print_list(IntList *list) {
-    if (list->first == NULL) { printf("This list is NULL."); }
+    if (list->first == NULL) { printf("This list is NULL."); return; }
 	printf("[");
 	DNode* cur = list->first;
 	while (cur != NULL) {
@@ -222,7 +222,8 @@ bool pop_front(IntList *list, int *ret) {
     if (cur->next == NULL) {
         *ret = cur->value;
         free(cur);
-        free(list);
+        list->first = NULL;
+        //free(list);
         return 1;
     }
     *ret = cur->value;
